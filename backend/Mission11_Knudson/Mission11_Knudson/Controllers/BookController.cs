@@ -16,25 +16,28 @@ namespace Mission11_Knudson.Controllers
         }
 
         [HttpGet("AllBooks")]
-        public IActionResult GetAllBooks(int pageNumber = 1, int pageSize = 10, bool sortAsc = true)
+        public IActionResult GetAllBooks(int pageNumber = 1, int pageSize = 10, bool sortAsc = true, [FromQuery] List<string>? bookCategories = null)
         {
-            var query = sortAsc
-                ? _context.Books.OrderBy(b => b.Title)
-                : _context.Books.OrderByDescending(b => b.Title);
+            var query = _context.Books.AsQueryable();
 
+            if (bookCategories != null && bookCategories.Any())
+            {
+                query = query.Where(b => bookCategories.Contains(b.Category));
+            }
+
+            query = sortAsc ? query.OrderBy(b => b.Title) : query.OrderByDescending(b => b.Title);
+
+            var totalBooks = query.Count();
             var books = query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
 
-            var totalBooks = _context.Books.Count();
+            return Ok(new { TotalBooks = totalBooks, PageNumber = pageNumber, PageSize = pageSize, Books = books });
+        }
 
-            var booksObject = new
-            {
-                TotalBooks = totalBooks,
-                PageNumber = pageNumber,
-                PageSize = pageSize,
-                Books = books
-            };
-
-            return Ok(booksObject);
+        [HttpGet("GetBookCategories")]
+        public IActionResult GetBookCategories()
+        {
+            var categories = _context.Books.Select(b => b.Category).Distinct().ToList();
+            return Ok(categories);
         }
 
         [HttpGet("FunctionalBooks")]

@@ -134,3 +134,4 @@ C:\Users\willk\source\repos\Mission11_Knudson\backend\Mission11_Knudson\Mission1
 C:\Users\willk\source\repos\Mission11_Knudson\backend\Mission11_Knudson\Mission11_Knudson\obj\Debug\net8.0\Mission11_Knudson.pdb
 C:\Users\willk\source\repos\Mission11_Knudson\backend\Mission11_Knudson\Mission11_Knudson\obj\Debug\net8.0\Mission11_Knudson.genruntimeconfig.cache
 C:\Users\willk\source\repos\Mission11_Knudson\backend\Mission11_Knudson\Mission11_Knudson\obj\Debug\net8.0\ref\Mission11_Knudson.dll
+C:\Users\willk\source\repos\Mission11_Knudson\backend\Mission11_Knudson\Mission11_Knudson\obj\Debug\net8.0\Mission11_Knudson.sourcelink.json
