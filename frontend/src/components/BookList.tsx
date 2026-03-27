@@ -9,6 +9,7 @@ function BookList({ selectedCategories }: { selectedCategories: string[] }) {
   const [totalPages, setTotalPages] = useState<number>(0);
   const [sortAsc, setSortAsc] = useState<boolean>(true);
   const [addedIds, setAddedIds] = useState<Set<number>>(new Set());
+  const [loading, setLoading] = useState<boolean>(false);
 
   const { addToCart } = useCart();
 
@@ -19,6 +20,7 @@ function BookList({ selectedCategories }: { selectedCategories: string[] }) {
 
   useEffect(() => {
     const fetchBooks = async () => {
+      setLoading(true);
       const categoryParams = selectedCategories
         .map(c => `bookCategories=${encodeURIComponent(c)}`)
         .join('&');
@@ -29,6 +31,7 @@ function BookList({ selectedCategories }: { selectedCategories: string[] }) {
       const data = await response.json();
       setBooks(data.books);
       setTotalPages(Math.ceil(data.totalBooks / pageSize));
+      setLoading(false);
     };
 
     fetchBooks();
@@ -42,7 +45,6 @@ function BookList({ selectedCategories }: { selectedCategories: string[] }) {
       price: book.price,
       quantity: 1,
     });
-    // Brief "Added!" feedback
     setAddedIds(prev => new Set(prev).add(book.bookId));
     setTimeout(() => {
       setAddedIds(prev => {
@@ -77,37 +79,43 @@ function BookList({ selectedCategories }: { selectedCategories: string[] }) {
         </label>
       </div>
 
-      {/* Book cards grid */}
-      <div className="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 mb-4">
-        {books.map((book) => (
-          <div className="col" key={book.bookId}>
-            {/* Bootstrap card with h-100 for equal height in grid */}
-            <div className="card h-100 shadow-sm">
-              <div className="card-body d-flex flex-column">
-                <h5 className="card-title">{book.title}</h5>
-                {/* Bootstrap badge for category - #notcoveredinthevideos: text-bg-* color variants on badge */}
-                <span className="badge text-bg-info mb-2 align-self-start">{book.category}</span>
-                <ul className="list-unstyled mb-3 small flex-grow-1">
-                  <li><strong>Author:</strong> {book.author}</li>
-                  <li><strong>Publisher:</strong> {book.publisher}</li>
-                  <li><strong>ISBN:</strong> {book.isbn}</li>
-                  <li><strong>Classification:</strong> {book.classification}</li>
-                  <li><strong>Pages:</strong> {book.pageCount}</li>
-                </ul>
-                <div className="d-flex align-items-center justify-content-between mt-auto">
-                  <span className="fs-5 fw-bold text-success">${book.price.toFixed(2)}</span>
-                  <button
-                    className={`btn btn-sm ${addedIds.has(book.bookId) ? 'btn-success' : 'btn-primary'}`}
-                    onClick={() => handleAddToCart(book)}
-                  >
-                    {addedIds.has(book.bookId) ? '✓ Added!' : 'Add to Cart'}
-                  </button>
+      {/* Spinner or book cards */}
+      {loading ? (
+        <div className="d-flex justify-content-center align-items-center py-5">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      ) : (
+        <div className="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4 mb-4">
+          {books.map((book) => (
+            <div className="col" key={book.bookId}>
+              <div className="card h-100 shadow-sm">
+                <div className="card-body d-flex flex-column">
+                  <h5 className="card-title">{book.title}</h5>
+                  <span className="badge text-bg-info mb-2 align-self-start">{book.category}</span>
+                  <ul className="list-unstyled mb-3 small flex-grow-1">
+                    <li><strong>Author:</strong> {book.author}</li>
+                    <li><strong>Publisher:</strong> {book.publisher}</li>
+                    <li><strong>ISBN:</strong> {book.isbn}</li>
+                    <li><strong>Classification:</strong> {book.classification}</li>
+                    <li><strong>Pages:</strong> {book.pageCount}</li>
+                  </ul>
+                  <div className="d-flex align-items-center justify-content-between mt-auto">
+                    <span className="fs-5 fw-bold text-success">${book.price.toFixed(2)}</span>
+                    <button
+                      className={`btn btn-sm ${addedIds.has(book.bookId) ? 'btn-success' : 'btn-primary'}`}
+                      onClick={() => handleAddToCart(book)}
+                    >
+                      {addedIds.has(book.bookId) ? '✓ Added!' : 'Add to Cart'}
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       {/* Pagination */}
       <nav>
