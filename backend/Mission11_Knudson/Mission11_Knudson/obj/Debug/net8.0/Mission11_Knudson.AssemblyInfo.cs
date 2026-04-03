@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Mission11_Knudson")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6f6c6c756e189075413f2cfc4cf896ab700a2813")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0cd5d919c4e02d7d34f899d45c050b5fede6a482")]
 [assembly: System.Reflection.AssemblyProductAttribute("Mission11_Knudson")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Mission11_Knudson")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

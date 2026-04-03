@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { CartProvider } from './context/CartContext';
 import BookstorePage from './pages/BookstorePage';
 import CartPage from './pages/CartPage';
+import AdminBooksPage from './pages/AdminBooksPage';
 
 function App() {
   return (
@@ -12,6 +13,8 @@ function App() {
           <Route path="/" element={<BookstorePage />} />
           <Route path="/books" element={<BookstorePage />} />
           <Route path="/cart" element={<CartPage />} />
+          {/* New route for the Admin Dashboard */}
+          <Route path="/adminbooks" element={<AdminBooksPage />} />
         </Routes>
       </Router>
     </CartProvider>
