@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/929773cf-b57b-4459-aa95-ee59756822e6/resourceGroups/BookStoreRG/providers/Microsoft.Web/sites/BookStore-Knudson-Backend",
+    "appService.deploySubpath": "backend\\Mission11_Knudson\\Mission11_Knudson\\publish"
+}

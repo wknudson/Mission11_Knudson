@@ -1,6 +1,6 @@
 import type { Book } from '../types/Book';
 
-const API_BASE_URL = 'https://localhost:5000/api/book';
+const API_BASE_URL = 'https://bookstore-knudson-backend.azurewebsites.net/api/Book';
 
 // Reusable fetch for the admin page
 export const fetchBooksAdmin = async (pageNumber: number, pageSize: number): Promise<{ books: Book[], totalBooks: number }> => {
