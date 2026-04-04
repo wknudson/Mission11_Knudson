@@ -13,8 +13,9 @@ function BookList() {
 
     useEffect(() => {
         const fetchBooks = async () => {
+            // UPDATED: Now pointing to your Azure Backend
             const response = await fetch(
-                `https://localhost:5000/api/book/AllBooks?pageNumber=${pageNumber}&pageSize=${pageSize}&sortAsc=${sortAsc}`
+                `https://bookstore-knudson-backend.azurewebsites.net/api/book/AllBooks?pageNumber=${pageNumber}&pageSize=${pageSize}&sortAsc=${sortAsc}`
             );
             const data = await response.json();
             setBooks(data.books);
@@ -30,37 +31,35 @@ function BookList() {
             <h1 className="mb-4">Book List</h1>
 
             <div className="mb-3 d-flex align-items-center justify-content-between">
-    <div className="d-flex align-items-center gap-3">
-        <button
-            className="btn btn-outline-secondary"
-            onClick={() => {
-                setSortAsc(!sortAsc);
-                setPageNumber(1);
-            }}
-        >
-            Sort by Title {sortAsc ? '▲' : '▼'}
-        </button>
+                <div className="d-flex align-items-center gap-3">
+                    <button
+                        className="btn btn-outline-secondary"
+                        onClick={() => {
+                            setSortAsc(!sortAsc);
+                            setPageNumber(1);
+                        }}
+                    >
+                        Sort by Title {sortAsc ? '▲' : '▼'}
+                    </button>
+                    <span className="text-muted ms-2">Total Books: {totalItems}</span>
+                </div>
 
-        {/* --- ADD IT HERE --- */}
-        <span className="text-muted ms-2">Total Books: {totalItems}</span>
-    </div>
-
-    <label className="d-flex align-items-center gap-2 mb-0">
-        Results per page:
-        <select
-            className="form-select w-auto"
-            value={pageSize}
-            onChange={(e) => {
-                setPageSize(Number(e.target.value));
-                setPageNumber(1);
-            }}
-        >
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="25">25</option>
-        </select>
-    </label>
-</div>
+                <label className="d-flex align-items-center gap-2 mb-0">
+                    Results per page:
+                    <select
+                        className="form-select w-auto"
+                        value={pageSize}
+                        onChange={(e) => {
+                            setPageSize(Number(e.target.value));
+                            setPageNumber(1);
+                        }}
+                    >
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                    </select>
+                </label>
+            </div>
 
             <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4">
                 {books.map((book) => (
