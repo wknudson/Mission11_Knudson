@@ -12,8 +12,7 @@ function CategoryFilter({
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch('https://localhost:5000/api/book/GetBookCategories');
-        const data = await response.json();
+        const response = await fetch('https://bookstore-knudson-backend.azurewebsites.net/api/book/GetBookCategories');        const data = await response.json();
         setCategories(data);
       } catch (error) {
         console.error('Error fetching categories:', error);

@@ -22,12 +22,12 @@ function BookList({ selectedCategories }: { selectedCategories: string[] }) {
     const fetchBooks = async () => {
       setLoading(true);
       const categoryParams = selectedCategories
-        .map(c => `bookCategories=${encodeURIComponent(c)}`)
+        .map(c => `bookCategories=${encodeURIComponent(c)}`) 
         .join('&');
 
       const response = await fetch(
-        `https://localhost:5000/api/book/AllBooks?pageNumber=${pageNumber}&pageSize=${pageSize}&sortAsc=${sortAsc}${selectedCategories.length ? `&${categoryParams}` : ''}`
-      );
+  `https://bookstore-knudson-backend.azurewebsites.net/api/book/AllBooks?pageNumber=${pageNumber}&pageSize=${pageSize}&sortAsc=${sortAsc}${selectedCategories.length ? `&${categoryParams}` : ''}`
+);
       const data = await response.json();
       setBooks(data.books);
       setTotalPages(Math.ceil(data.totalBooks / pageSize));
