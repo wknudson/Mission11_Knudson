@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using BookstoreProject.API.Data;
+using Mission11_Knudson.Data; // Updated to match your actual namespace
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,26 +11,34 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<BookstoreDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Add CORS service
-builder.Services.AddCors();
+// 1. Define the CORS policy name
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigins",
+        policy =>
+        {
+            policy.WithOrigins(
+                "http://localhost:3000", 
+                "https://jolly-ocean-020087e1e.1.azurestaticapps.net"
+            )
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+        });
+});
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-// We move these OUTSIDE the if-statement so we can see Swagger in Azure (Production)
 app.UseSwagger();
 app.UseSwaggerUI();
 
 if (app.Environment.IsDevelopment())
 {
-    // Development-specific settings can go here if needed
+    // Development-specific settings
 }
 
-// Updated CORS to allow any origin so Azure doesn't block your requests
-app.UseCors(x => x
-    .AllowAnyOrigin()
-    .AllowAnyMethod()
-    .AllowAnyHeader());
+// 2. Use the specific policy instead of AllowAnyOrigin
+app.UseCors("AllowSpecificOrigins");
 
 app.UseHttpsRedirection();
 
